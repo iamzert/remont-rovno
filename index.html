@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ремонт квартир «Ровно» — под ключ с фиксированной сметой</title>
+  <meta name="description" content="Ремонт квартир под ключ: косметический, капитальный и дизайнерский. Цена и сроки фиксируются в договоре, гарантия 3 года. Рассчитайте стоимость онлайн.">
+  <meta name="theme-color" content="#1c2228">
+
+  <!-- Превью ссылки в мессенджерах и соцсетях -->
+  <meta property="og:title" content="Ремонт квартир «Ровно»">
+  <meta property="og:description" content="Фиксированная смета, сроки в договоре, гарантия 3 года.">
+  <meta property="og:type" content="website">
+
+  <!-- Иконка во вкладке: жёлтый квадрат с прямым углом -->
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 28 28'%3E%3Crect x='1' y='1' width='26' height='26' rx='5' fill='%23f5b800'/%3E%3Cpath d='M8 6.5v14h13.5' stroke='%231c2228' stroke-width='3.2' fill='none' stroke-linecap='square'/%3E%3C/svg%3E">
+
+  <!-- Шрифты: Unbounded для заголовков, Manrope для текста. Оба с кириллицей и бесплатные -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+
+  <!-- Сообщаем CSS, что JavaScript работает (нужно для анимаций появления) -->
+  <script>document.documentElement.classList.add('js');</script>
+</head>
+<body>
+
+  <a href="#main" class="skip-link">Перейти к содержимому</a>
+
+  <!-- ===== ШАПКА ===== -->
+  <header class="header" id="header">
+    <div class="container header__inner">
+      <a href="#top" class="logo" aria-label="Ровно — на главную">
+        <svg class="logo__mark" viewBox="0 0 28 28" aria-hidden="true">
+          <rect x="1" y="1" width="26" height="26" rx="5" />
+          <path d="M8 6.5v14h13.5" />
+        </svg>
+        Ровно
+      </a>
+
+      <nav class="nav" id="nav" aria-label="Основное меню">
+        <a href="#services">Услуги</a>
+        <a href="#calc">Калькулятор</a>
+        <a href="#steps">Как работаем</a>
+        <a href="#works">Работы</a>
+        <a href="#faq">Вопросы</a>
+        <a href="#request" class="btn nav__btn">Вызвать замерщика</a>
+      </nav>
+
+      <div class="header__actions">
+        <a href="tel:+70000000000" class="header__phone">+7 (000) 000-00-00</a>
+        <a href="#request" class="btn btn--small">Вызвать замерщика</a>
+      </div>
+
+      <button class="burger" id="burger" aria-label="Открыть меню" aria-expanded="false" aria-controls="nav">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <main id="main">
+    <!-- ===== ПЕРВЫЙ ЭКРАН ===== -->
+    <section class="hero" id="top">
+      <div class="container">
+        <div class="hero__inner">
+          <div class="hero__text">
+            <p class="eyebrow">Ремонт квартир под ключ</p>
+            <h1>Ремонт, в&nbsp;котором смета <span class="marker">не&nbsp;растёт</span></h1>
+            <p class="hero__desc">
+              Считаем всё до начала работ и фиксируем цену и сроки в договоре.
+              Ошиблись в расчётах — доплачиваем мы, а не вы.
+            </p>
+            <div class="hero__buttons">
+              <a href="#calc" class="btn">Рассчитать стоимость</a>
+              <a href="#works" class="btn btn--outline">Смотреть работы</a>
+            </div>
+          </div>
+
+          <!-- Иллюстрация: смета с печатью. Сделана на HTML и CSS, без картинок -->
+          <div class="estimate" aria-hidden="true">
+            <div class="estimate__head">
+              <span>Смета № 0412</span>
+              <span>2-комн., 58 м²</span>
+            </div>
+            <ul class="estimate__list">
+              <li><span>Демонтаж</span><span>48 000 ₽</span></li>
+              <li><span>Электрика</span><span>96 000 ₽</span></li>
+              <li><span>Сантехника</span><span>74 000 ₽</span></li>
+              <li><span>Черновая отделка</span><span>182 000 ₽</span></li>
+              <li><span>Чистовая отделка</span><span>206 000 ₽</span></li>
+            </ul>
+            <div class="estimate__total">
+              <span>Итого</span>
+              <strong>606 000 ₽</strong>
+            </div>
+            <p class="estimate__sign">Прораб</p>
+            <div class="estimate__stamp">Смета<br>утверждена</div>
+          </div>
+        </div>
+
+        <ul class="stats">
+          <li><strong>12 лет</strong><span>делаем ремонт</span></li>
+          <li><strong>340+</strong><span>сданных квартир</span></li>
+          <li><strong>3 года</strong><span>гарантии на работы</span></li>
+          <li><strong>0 ₽</strong><span>доплат сверх сметы</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ===== УСЛУГИ ===== -->
+    <section class="section" id="services">
+      <div class="container">
+        <div class="section__head reveal">
+          <p class="eyebrow">Услуги</p>
+          <h2 class="section__title">Три вида ремонта</h2>
+        </div>
+
+        <div class="services">
+          <article class="service reveal">
+            <h3>Косметический</h3>
+            <p class="service__price">от 3 500 ₽<span>/м²</span></p>
+            <p class="service__desc">Освежить квартиру без больших переделок.</p>
+            <ul class="checklist">
+              <li>Покраска стен или обои</li>
+              <li>Ламинат или линолеум</li>
+              <li>Замена розеток и дверей</li>
+              <li>Срок — от 3 недель</li>
+            </ul>
+            <a href="#calc" class="btn btn--outline btn--full" data-pick-type="cosmetic">Рассчитать</a>
+          </article>
+
+          <article class="service service--popular reveal">
+            <p class="service__badge">Выбирают чаще всего</p>
+            <h3>Капитальный</h3>
+            <p class="service__price">от 7 000 ₽<span>/м²</span></p>
+            <p class="service__desc">Всё новое: от проводки до плинтусов.</p>
+            <ul class="checklist">
+              <li>Новая электрика и трубы</li>
+              <li>Выравнивание стен и пола</li>
+              <li>Плитка в санузле и на кухне</li>
+              <li>Срок — от 6 недель</li>
+            </ul>
+            <a href="#calc" class="btn btn--full" data-pick-type="capital">Рассчитать</a>
+          </article>
+
+          <article class="service reveal">
+            <h3>Дизайнерский</h3>
+            <p class="service__price">от 11 000 ₽<span>/м²</span></p>
+            <p class="service__desc">Ремонт по дизайн-проекту с авторским надзором.</p>
+            <ul class="checklist">
+              <li>Дизайн-проект и 3D-визуализация</li>
+              <li>Сложные потолки и подсветка</li>
+              <li>Подбор и закупка мебели</li>
+              <li>Срок — от 10 недель</li>
+            </ul>
+            <a href="#calc" class="btn btn--outline btn--full" data-pick-type="design">Рассчитать</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== КАЛЬКУЛЯТОР =====
+         Цены хранятся прямо в атрибутах data-*: поменял число здесь — калькулятор пересчитает сам -->
+    <section class="section section--dark" id="calc">
+      <div class="container">
+        <div class="section__head reveal">
+          <p class="eyebrow eyebrow--light">Калькулятор</p>
+          <h2 class="section__title">Сколько стоит ваш ремонт</h2>
+          <p class="section__lead">Цена примерная. Точную смету составим после бесплатного замера.</p>
+        </div>
+
+        <form class="calc reveal" id="calc-form">
+          <div class="calc__fields">
+            <div class="calc__group">
+              <div class="calc__label-row">
+                <label for="c-area" class="calc__label">Площадь квартиры</label>
+                <output id="c-area-out" for="c-area" class="calc__value">58 м²</output>
+              </div>
+              <input type="range" id="c-area" name="area" min="15" max="200" step="1" value="58">
+              <div class="calc__scale"><span>15 м²</span><span>200 м²</span></div>
+            </div>
+
+            <fieldset class="calc__group">
+              <legend class="calc__label">Тип ремонта</legend>
+              <div class="choices">
+                <label class="choice">
+                  <input type="radio" name="type" value="cosmetic" data-price="3500" data-weeks="0.06" data-min-weeks="3">
+                  <span>Косметический</span>
+                </label>
+                <label class="choice">
+                  <input type="radio" name="type" value="capital" data-price="7000" data-weeks="0.12" data-min-weeks="6" checked>
+                  <span>Капитальный</span>
+                </label>
+                <label class="choice">
+                  <input type="radio" name="type" value="design" data-price="11000" data-weeks="0.18" data-min-weeks="10">
+                  <span>Дизайнерский</span>
+                </label>
+              </div>
+            </fieldset>
+
+            <fieldset class="calc__group">
+              <legend class="calc__label">Жильё</legend>
+              <div class="choices">
+                <label class="choice">
+                  <input type="radio" name="housing" value="new" data-factor="1" checked>
+                  <span>Новостройка</span>
+                </label>
+                <label class="choice">
+                  <!-- Во вторичке нужен демонтаж старого — работы дороже на 15% -->
+                  <input type="radio" name="housing" value="old" data-factor="1.15">
+                  <span>Вторичка</span>
+                </label>
+              </div>
+            </fieldset>
+
+            <fieldset class="calc__group">
+              <legend class="calc__label">Дополнительно</legend>
+              <div class="extras">
+                <label class="extra">
+                  <input type="checkbox" name="extra" data-price="900">
+                  <span>Тёплый пол</span>
+                  <small>+900 ₽/м²</small>
+                </label>
+                <label class="extra">
+                  <input type="checkbox" name="extra" data-price="1100">
+                  <span>Шумоизоляция</span>
+                  <small>+1 100 ₽/м²</small>
+                </label>
+                <label class="extra">
+                  <input type="checkbox" name="extra" data-price="650">
+                  <span>Натяжные потолки</span>
+                  <small>+650 ₽/м²</small>
+                </label>
+                <label class="extra">
+                  <input type="checkbox" name="extra" data-price="150">
+                  <span>Уборка после ремонта</span>
+                  <small>+150 ₽/м²</small>
+                </label>
+              </div>
+            </fieldset>
+          </div>
+
+          <div class="calc__result">
+            <p class="calc__result-label">Примерная стоимость</p>
+            <p class="calc__total" id="c-total">406 000 ₽</p>
+            <dl class="calc__meta">
+              <div><dt>Цена за м²</dt><dd id="c-per-m2">7 000 ₽</dd></div>
+              <div><dt>Срок</dt><dd id="c-weeks">≈ 7 недель</dd></div>
+            </dl>
+            <a href="#request" class="btn btn--dark btn--full" id="c-submit">Получить точную смету</a>
+            <p class="calc__note">Замер и смета — бесплатно</p>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <!-- ===== ЭТАПЫ ===== -->
+    <section class="section" id="steps">
+      <div class="container">
+        <div class="section__head reveal">
+          <p class="eyebrow">Как работаем</p>
+          <h2 class="section__title">Пять шагов до&nbsp;новой квартиры</h2>
+        </div>
+
+        <ol class="steps">
+          <li class="step reveal">
+            <span class="step__num">01</span>
+            <h3>Замер</h3>
+            <p>Приедем в удобное время и замерим всё лазерным уровнем. Бесплатно.</p>
+            <span class="step__time">1 день</span>
+          </li>
+          <li class="step reveal">
+            <span class="step__num">02</span>
+            <h3>Смета и договор</h3>
+            <p>Подробная смета по каждой позиции. Цена и сроки — в договоре.</p>
+            <span class="step__time">2–3 дня</span>
+          </li>
+          <li class="step reveal">
+            <span class="step__num">03</span>
+            <h3>Закупка</h3>
+            <p>Покупаем материалы со скидкой поставщиков и отдаём вам все чеки.</p>
+            <span class="step__time">параллельно</span>
+          </li>
+          <li class="step reveal">
+            <span class="step__num">04</span>
+            <h3>Ремонт</h3>
+            <p>Каждую пятницу — фото и видео в Telegram. Можно не приезжать.</p>
+            <span class="step__time">от 3 недель</span>
+          </li>
+          <li class="step reveal">
+            <span class="step__num">05</span>
+            <h3>Приёмка</h3>
+            <p>Проверяем вместе по чек-листу из 120 пунктов и выдаём гарантию.</p>
+            <span class="step__time">1 день</span>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- ===== РАБОТЫ =====
+         Планировки нарисованы в SVG: жёлтым отмечена зона, которую ремонтировали сложнее всего -->
+    <section class="section section--soft" id="works">
+      <div class="container">
+        <div class="section__head reveal">
+          <p class="eyebrow">Работы</p>
+          <h2 class="section__title">Недавние объекты</h2>
+        </div>
+
+        <div class="works">
+          <article class="work reveal">
+            <div class="work__plan">
+              <svg class="plan" viewBox="0 0 240 160" role="img" aria-label="Планировка двухкомнатной квартиры">
+                <rect class="plan__floor" x="12" y="12" width="216" height="136" />
+                <rect class="plan__accent" x="12" y="12" width="108" height="80" />
+                <path class="plan__wall" d="M12 12H228V148H12Z" />
+                <path class="plan__wall plan__wall--in" d="M120 12V64M120 88V148M12 92H52M76 92H120M120 100H150M174 100H228" />
+                <path class="plan__door" d="M120 64a24 24 0 0 1 24 24M52 92a24 24 0 0 1 24 -24M150 100a24 24 0 0 1 24 -24" />
+                <text x="66" y="56">кухня</text>
+                <text x="66" y="124">с/у</text>
+                <text x="174" y="60">спальня</text>
+                <text x="174" y="128">гостиная</text>
+              </svg>
+            </div>
+            <div class="work__body">
+              <h3>ЖК «Северный», 2-комн.</h3>
+              <ul class="tags">
+                <li>58 м²</li>
+                <li>Капитальный</li>
+                <li>8 недель</li>
+              </ul>
+              <p class="work__price">486 000 ₽</p>
+              <p class="work__note">Перенесли кухню, сделали тёплый пол во всей квартире.</p>
+            </div>
+          </article>
+
+          <article class="work reveal">
+            <div class="work__plan">
+              <svg class="plan" viewBox="0 0 240 160" role="img" aria-label="Планировка трёхкомнатной квартиры">
+                <rect class="plan__floor" x="12" y="12" width="216" height="136" />
+                <rect class="plan__accent" x="90" y="12" width="70" height="136" />
+                <path class="plan__wall" d="M12 12H228V148H12Z" />
+                <path class="plan__wall plan__wall--in" d="M90 12V60M90 84V148M160 12V72M160 96V148M12 80H40M64 80H90M160 96H186M210 96H228" />
+                <path class="plan__door" d="M90 60a24 24 0 0 1 24 24M40 80a24 24 0 0 1 24 -24M186 96a24 24 0 0 1 24 24M160 72a24 24 0 0 1 24 24" />
+                <text x="51" y="50">кухня</text>
+                <text x="51" y="118">спальня</text>
+                <text x="125" y="84">гостиная</text>
+                <text x="194" y="58">детская</text>
+                <text x="194" y="128">кабинет</text>
+              </svg>
+            </div>
+            <div class="work__body">
+              <h3>Сталинка на Мира, 3-комн.</h3>
+              <ul class="tags">
+                <li>84 м²</li>
+                <li>Дизайнерский</li>
+                <li>14 недель</li>
+              </ul>
+              <p class="work__price">1 060 000 ₽</p>
+              <p class="work__note">Объединили гостиную с коридором, восстановили лепнину.</p>
+            </div>
+          </article>
+
+          <article class="work reveal">
+            <div class="work__plan">
+              <svg class="plan" viewBox="0 0 240 160" role="img" aria-label="Планировка студии">
+                <rect class="plan__floor" x="12" y="12" width="216" height="136" />
+                <rect class="plan__accent" x="150" y="12" width="78" height="72" />
+                <path class="plan__wall" d="M12 12H228V148H12Z" />
+                <path class="plan__wall plan__wall--in" d="M150 12V36M150 60V84H228" />
+                <path class="plan__door" d="M150 36a24 24 0 0 0 -24 24" />
+                <text x="80" y="96">студия</text>
+                <text x="189" y="52">с/у</text>
+              </svg>
+            </div>
+            <div class="work__body">
+              <h3>Студия в новостройке</h3>
+              <ul class="tags">
+                <li>31 м²</li>
+                <li>Косметический</li>
+                <li>3 недели</li>
+              </ul>
+              <p class="work__price">118 000 ₽</p>
+              <p class="work__note">Ремонт под сдачу в аренду: быстро и без лишних трат.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== ВОПРОСЫ =====
+         <details> — встроенный в браузер «раскрывающийся блок», JavaScript для него не нужен -->
+    <section class="section" id="faq">
+      <div class="container">
+        <div class="section__head section__head--center reveal">
+          <p class="eyebrow">Вопросы</p>
+          <h2 class="section__title">Частые вопросы</h2>
+        </div>
+
+        <div class="faq reveal">
+          <details class="faq__item">
+            <summary>Почему смета не вырастет в процессе?</summary>
+            <p>Мы считаем работы и материалы по замеру, а не «на глаз», и прописываем итоговую цену в договоре. Если ошиблись в расчётах — разницу оплачиваем сами. Цена меняется, только если вы решили что-то добавить.</p>
+          </details>
+          <details class="faq__item">
+            <summary>Кто покупает материалы?</summary>
+            <p>Как вам удобнее. Можем закупить сами — со скидкой поставщиков 10–15% и со всеми чеками. Или работаем с вашими материалами по согласованному списку.</p>
+          </details>
+          <details class="faq__item">
+            <summary>Нужно ли приезжать на объект?</summary>
+            <p>Не обязательно. Раз в неделю прораб присылает фото и видео в Telegram, а скрытые работы — проводку и трубы — показываем по видеосвязи до того, как закроем стены.</p>
+          </details>
+          <details class="faq__item">
+            <summary>Что входит в гарантию?</summary>
+            <p>Три года на все работы. Если что-то отклеилось, потекло или треснуло по нашей вине — приедем и исправим бесплатно.</p>
+          </details>
+          <details class="faq__item">
+            <summary>Сколько стоит замер?</summary>
+            <p>Нисколько — даже если потом вы выберете другую компанию.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== ЗАЯВКА ===== -->
+    <section class="section section--accent" id="request">
+      <div class="container request">
+        <div class="request__intro reveal">
+          <p class="eyebrow">Заявка</p>
+          <h2 class="section__title">Вызвать замерщика бесплатно</h2>
+          <p class="request__text">Оставьте телефон — перезвоним в течение 15 минут и договоримся о времени замера.</p>
+          <ul class="checklist checklist--big">
+            <li>Замер и смета — бесплатно</li>
+            <li>Цена и сроки фиксируются в договоре</li>
+            <li>Гарантия 3 года на все работы</li>
+          </ul>
+        </div>
+
+        <form class="form reveal" id="request-form" novalidate>
+          <div class="field">
+            <label for="f-name">Ваше имя</label>
+            <input id="f-name" type="text" name="name" autocomplete="name" placeholder="Например, Андрей" required>
+          </div>
+          <div class="field">
+            <label for="f-phone">Телефон</label>
+            <input id="f-phone" type="tel" name="phone" autocomplete="tel" inputmode="tel" placeholder="+7 (___) ___-__-__" required>
+          </div>
+          <div class="field">
+            <label for="f-comment">Комментарий <span class="field__optional">— необязательно</span></label>
+            <textarea id="f-comment" name="comment" rows="3" placeholder="Например: вторичка, 2 комнаты, хотим начать в мае"></textarea>
+          </div>
+          <button type="submit" class="btn btn--dark btn--full">Вызвать замерщика</button>
+          <p class="form__policy">Нажимая кнопку, вы соглашаетесь на обработку персональных данных.</p>
+          <p class="form__message" id="form-message" role="status" aria-live="polite"></p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===== ПОДВАЛ ===== -->
+  <footer class="footer" id="contacts">
+    <div class="container footer__inner">
+      <div class="footer__brand">
+        <a href="#top" class="logo logo--light" aria-label="Ровно — наверх">
+          <svg class="logo__mark" viewBox="0 0 28 28" aria-hidden="true">
+            <rect x="1" y="1" width="26" height="26" rx="5" />
+            <path d="M8 6.5v14h13.5" />
+          </svg>
+          Ровно
+        </a>
+        <p>Учебный проект для портфолио. Компания вымышленная.</p>
+      </div>
+      <div>
+        <h3 class="footer__title">Офис</h3>
+        <p>ул. Примерная, 7, офис 12<br>Пн–Сб 9:00 — 20:00</p>
+      </div>
+      <div>
+        <h3 class="footer__title">Контакты</h3>
+        <p><a href="tel:+70000000000">+7 (000) 000-00-00</a><br>
+           <a href="mailto:hello@example.com">hello@example.com</a></p>
+      </div>
+    </div>
+    <div class="container footer__bottom">
+      <p>© <span id="year">2026</span> Ремонт квартир «Ровно»</p>
+      <a href="#top">Наверх ↑</a>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
