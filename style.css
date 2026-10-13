@@ -16,6 +16,7 @@
   --color-dark: #1c2228;        /* тёмные секции */
   --color-dark-2: #262e36;      /* карточки на тёмном */
   --color-dark-line: rgba(255, 255, 255, 0.14);
+  --color-control-line: rgba(255, 255, 255, 0.34); /* рамки кнопок-вариантов: заметнее, чем просто линии */
   --color-stamp: #2457c5;       /* синяя печать на смете */
   --color-error: #c62828;
   --color-success: #2e7d32;
@@ -82,10 +83,19 @@ fieldset {
   min-width: 0;
 }
 
+/* Рамка фокуса для навигации с клавиатуры.
+   На светлом фоне — тёмная: жёлтая там почти не видна (контраст 1.6:1, а нужно от 3:1).
+   На тёмных секциях — жёлтая */
 :focus-visible {
-  outline: 3px solid var(--color-accent);
+  outline: 3px solid var(--color-text);
   outline-offset: 3px;
   border-radius: 6px;
+}
+
+.section--dark :focus-visible,
+.footer :focus-visible,
+.skip-link:focus-visible {
+  outline-color: var(--color-accent);
 }
 
 .skip-link {
@@ -305,6 +315,26 @@ fieldset {
   text-decoration-color: var(--color-accent);
   text-decoration-thickness: 3px;
   text-underline-offset: 4px;
+}
+
+/* Круглая кнопка звонка — видна только на телефоне и планшете */
+.header__call {
+  display: none;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  margin-left: auto;
+  border-radius: 50%;
+  background: var(--color-accent);
+}
+
+.header__call svg {
+  width: 22px;
+  height: 22px;
+  fill: none;
+  stroke: var(--color-text);
+  stroke-width: 2;
+  stroke-linejoin: round;
 }
 
 .burger {
@@ -659,11 +689,45 @@ fieldset {
   margin-bottom: 0;
 }
 
+/* Площадь: число можно ввести с клавиатуры */
 .calc__value {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
   font-family: var(--font-title);
   font-size: 24px;
   font-weight: 700;
   color: var(--color-accent);
+}
+
+.calc__value input {
+  width: calc(2ch + 6px); /* точную ширину под число ставит script.js */
+  padding: 0 3px;
+  border: none;
+  border-bottom: 2px dashed rgba(245, 184, 0, 0.5); /* пунктир подсказывает, что число можно менять */
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: right;
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+/* Убираем стрелочки у числового поля */
+.calc__value input::-webkit-outer-spin-button,
+.calc__value input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.calc__value input:hover,
+.calc__value input:focus {
+  border-bottom-style: solid;
+  border-bottom-color: var(--color-accent);
+}
+
+.calc__value input:focus-visible {
+  outline-offset: 4px;
 }
 
 /* Ползунок. --fill задаётся из script.js: насколько закрашена полоса */
@@ -729,9 +793,11 @@ fieldset {
 .choice span {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
+  width: 100%;
   min-height: 46px;
   padding: 0 20px;
-  border: 1px solid var(--color-dark-line);
+  border: 1px solid var(--color-control-line);
   border-radius: var(--radius-small);
   font-weight: 600;
   cursor: pointer;
@@ -764,7 +830,7 @@ fieldset {
   align-items: center;
   gap: 12px;
   padding: 14px 16px;
-  border: 1px solid var(--color-dark-line);
+  border: 1px solid var(--color-control-line);
   border-radius: var(--radius-small);
   font-weight: 600;
   cursor: pointer;
@@ -802,6 +868,11 @@ fieldset {
   font-size: 13px;
   font-weight: 500;
   white-space: nowrap;
+}
+
+/* Мини-итог для телефона (на компьютере спрятан) */
+.calc__mini {
+  display: none;
 }
 
 /* Итог: жёлтая карточка «прилипает», пока листаешь поля */
@@ -959,6 +1030,14 @@ fieldset {
   stroke: var(--color-muted);
   stroke-width: 1.2;
   stroke-dasharray: 3 3;
+}
+
+/* Полотно двери — сплошная линия от петли */
+.plan__leaf {
+  fill: none;
+  stroke: var(--color-text);
+  stroke-width: 2;
+  stroke-linecap: round;
 }
 
 .plan text {
@@ -1139,6 +1218,16 @@ fieldset {
   border-color: var(--color-error);
 }
 
+/* Комментарий подсвечивается, когда в него пришёл расчёт из калькулятора */
+.form textarea.is-filled {
+  animation: filled 1.6s ease;
+}
+
+@keyframes filled {
+  0%, 40% { background: var(--color-accent-soft); border-color: var(--color-accent-dark); }
+  100%    { background: #fff; }
+}
+
 .form .btn {
   margin-top: 6px;
 }
@@ -1257,6 +1346,34 @@ fieldset {
     position: static;
   }
 
+  /* Итог теперь под настройками, поэтому показываем мини-итог,
+     который едет вместе с экраном, пока листаешь настройки */
+  .calc__mini {
+    position: sticky;
+    bottom: 12px;
+    z-index: 2;
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    margin: 0 -8px -8px;
+    padding: 14px 20px;
+    border-radius: var(--radius-small);
+    background: var(--color-accent);
+    color: var(--color-text);
+    font-weight: 700;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+  }
+
+  .calc__mini strong {
+    font-family: var(--font-title);
+    font-size: 20px;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .calc__mini-arrow {
+    margin-left: auto;
+  }
+
   .works {
     grid-template-columns: 1fr 1fr;
   }
@@ -1277,6 +1394,14 @@ fieldset {
 
   .header__actions {
     display: none;
+  }
+
+  .header__call {
+    display: grid;
+  }
+
+  .header__inner {
+    gap: 12px;
   }
 
   .nav {
@@ -1383,6 +1508,15 @@ fieldset {
 
   .extras {
     grid-template-columns: 1fr;
+  }
+
+  /* Варианты растягиваются по ширине, а не висят «лесенкой» */
+  .choice {
+    flex: 1 1 auto;
+  }
+
+  .choice span {
+    padding: 0 14px;
   }
 
   .steps {

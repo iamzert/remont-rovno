@@ -11,6 +11,12 @@
   <meta property="og:title" content="Ремонт квартир «Ровно»">
   <meta property="og:description" content="Фиксированная смета, сроки в договоре, гарантия 3 года.">
   <meta property="og:type" content="website">
+  <meta property="og:url" content="https://iamzert.github.io/remont-rovno/">
+  <!-- Картинка для превью. Адрес обязательно полный, с https:// — иначе мессенджеры её не найдут -->
+  <meta property="og:image" content="https://iamzert.github.io/remont-rovno/og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
 
   <!-- Иконка во вкладке: жёлтый квадрат с прямым углом -->
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 28 28'%3E%3Crect x='1' y='1' width='26' height='26' rx='5' fill='%23f5b800'/%3E%3Cpath d='M8 6.5v14h13.5' stroke='%231c2228' stroke-width='3.2' fill='none' stroke-linecap='square'/%3E%3C/svg%3E">
@@ -53,6 +59,11 @@
         <a href="#request" class="btn btn--small">Вызвать замерщика</a>
       </div>
 
+      <!-- Кнопка звонка: на телефоне номер в шапке спрятан, а позвонить — главное действие -->
+      <a href="tel:+70000000000" class="header__call" aria-label="Позвонить: +7 (000) 000-00-00">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 3.5h2.6l1.4 4.2-2 1.4a12 12 0 0 0 6.3 6.3l1.4-2 4.2 1.4v2.6a2 2 0 0 1-2.2 2A17 17 0 0 1 4.6 5.7a2 2 0 0 1 2-2.2z"/></svg>
+      </a>
+
       <button class="burger" id="burger" aria-label="Открыть меню" aria-expanded="false" aria-controls="nav">
         <span></span><span></span><span></span>
       </button>
@@ -69,7 +80,7 @@
             <h1>Ремонт, в&nbsp;котором смета <span class="marker">не&nbsp;растёт</span></h1>
             <p class="hero__desc">
               Считаем всё до начала работ и фиксируем цену и сроки в договоре.
-              Ошиблись в расчётах — доплачиваем мы, а не вы.
+              Ошиблись в&nbsp;расчётах — доплачиваем мы, а&nbsp;не&nbsp;вы.
             </p>
             <div class="hero__buttons">
               <a href="#calc" class="btn">Рассчитать стоимость</a>
@@ -77,22 +88,24 @@
             </div>
           </div>
 
-          <!-- Иллюстрация: смета с печатью. Сделана на HTML и CSS, без картинок -->
+          <!-- Иллюстрация: смета с печатью. Сделана на HTML и CSS, без картинок.
+               Итог совпадает с тем, что калькулятор показывает по умолчанию
+               (капитальный ремонт, новостройка, 58 м²) — цифры на сайте не спорят друг с другом -->
           <div class="estimate" aria-hidden="true">
             <div class="estimate__head">
               <span>Смета № 0412</span>
-              <span>2-комн., 58 м²</span>
+              <span>Капитальный, 58 м²</span>
             </div>
             <ul class="estimate__list">
-              <li><span>Демонтаж</span><span>48 000 ₽</span></li>
-              <li><span>Электрика</span><span>96 000 ₽</span></li>
-              <li><span>Сантехника</span><span>74 000 ₽</span></li>
-              <li><span>Черновая отделка</span><span>182 000 ₽</span></li>
-              <li><span>Чистовая отделка</span><span>206 000 ₽</span></li>
+              <li><span>Электрика</span><span>68 000 ₽</span></li>
+              <li><span>Сантехника</span><span>52 000 ₽</span></li>
+              <li><span>Черновая отделка</span><span>126 000 ₽</span></li>
+              <li><span>Чистовая отделка</span><span>142 000 ₽</span></li>
+              <li><span>Вывоз мусора</span><span>18 000 ₽</span></li>
             </ul>
             <div class="estimate__total">
               <span>Итого</span>
-              <strong>606 000 ₽</strong>
+              <strong>406 000 ₽</strong>
             </div>
             <p class="estimate__sign">Прораб</p>
             <div class="estimate__stamp">Смета<br>утверждена</div>
@@ -175,7 +188,11 @@
             <div class="calc__group">
               <div class="calc__label-row">
                 <label for="c-area" class="calc__label">Площадь квартиры</label>
-                <output id="c-area-out" for="c-area" class="calc__value">58 м²</output>
+                <!-- Площадь можно ввести цифрами: ползунком на телефоне точно попасть в 47 м² трудно -->
+                <div class="calc__value">
+                  <input type="number" id="c-area-num" min="15" max="200" step="1" value="58" inputmode="numeric" aria-label="Площадь квартиры, м²">
+                  <span aria-hidden="true">м²</span>
+                </div>
               </div>
               <input type="range" id="c-area" name="area" min="15" max="200" step="1" value="58">
               <div class="calc__scale"><span>15 м²</span><span>200 м²</span></div>
@@ -239,9 +256,17 @@
                 </label>
               </div>
             </fieldset>
+
+            <!-- Мини-итог для телефона: «прилипает» к низу экрана, пока листаешь настройки,
+                 чтобы цена была видна сразу. На компьютере не нужен — там итог справа -->
+            <a href="#c-result" class="calc__mini" aria-hidden="true" tabindex="-1">
+              <span>Примерно</span>
+              <strong id="c-mini">406 000 ₽</strong>
+              <span class="calc__mini-arrow">↓</span>
+            </a>
           </div>
 
-          <div class="calc__result">
+          <div class="calc__result" id="c-result">
             <p class="calc__result-label">Примерная стоимость</p>
             <p class="calc__total" id="c-total">406 000 ₽</p>
             <dl class="calc__meta">
@@ -299,7 +324,8 @@
     </section>
 
     <!-- ===== РАБОТЫ =====
-         Планировки нарисованы в SVG: жёлтым отмечена зона, которую ремонтировали сложнее всего -->
+         Планировки нарисованы в SVG: жёлтым отмечена зона, которую ремонтировали сложнее всего.
+         Дверь рисуется как на чертеже: полотно (plan__leaf) от петли + дуга, по которой оно открывается -->
     <section class="section section--soft" id="works">
       <div class="container">
         <div class="section__head reveal">
@@ -316,6 +342,7 @@
                 <path class="plan__wall" d="M12 12H228V148H12Z" />
                 <path class="plan__wall plan__wall--in" d="M120 12V64M120 88V148M12 92H52M76 92H120M120 100H150M174 100H228" />
                 <path class="plan__door" d="M120 64a24 24 0 0 1 24 24M52 92a24 24 0 0 1 24 -24M150 100a24 24 0 0 1 24 -24" />
+                <path class="plan__leaf" d="M120 88H144M76 92V68M174 100V76" />
                 <text x="66" y="56">кухня</text>
                 <text x="66" y="124">с/у</text>
                 <text x="174" y="60">спальня</text>
@@ -341,12 +368,13 @@
                 <rect class="plan__accent" x="90" y="12" width="70" height="136" />
                 <path class="plan__wall" d="M12 12H228V148H12Z" />
                 <path class="plan__wall plan__wall--in" d="M90 12V60M90 84V148M160 12V72M160 96V148M12 80H40M64 80H90M160 96H186M210 96H228" />
-                <path class="plan__door" d="M90 60a24 24 0 0 1 24 24M40 80a24 24 0 0 1 24 -24M186 96a24 24 0 0 1 24 24M160 72a24 24 0 0 1 24 24" />
+                <path class="plan__door" d="M90 60a24 24 0 0 1 24 24M40 80a24 24 0 0 1 24 -24M210 120a24 24 0 0 1 -24 -24M184 72a24 24 0 0 1 -24 24" />
+                <path class="plan__leaf" d="M90 84H114M64 80V56M210 96V120M160 72H184" />
                 <text x="51" y="50">кухня</text>
                 <text x="51" y="118">спальня</text>
-                <text x="125" y="84">гостиная</text>
+                <text x="125" y="122">гостиная</text>
                 <text x="194" y="58">детская</text>
-                <text x="194" y="128">кабинет</text>
+                <text x="194" y="138">кабинет</text>
               </svg>
             </div>
             <div class="work__body">
@@ -369,6 +397,7 @@
                 <path class="plan__wall" d="M12 12H228V148H12Z" />
                 <path class="plan__wall plan__wall--in" d="M150 12V36M150 60V84H228" />
                 <path class="plan__door" d="M150 36a24 24 0 0 0 -24 24" />
+                <path class="plan__leaf" d="M150 60H126" />
                 <text x="80" y="96">студия</text>
                 <text x="189" y="52">с/у</text>
               </svg>

@@ -46,26 +46,31 @@ function onScroll() {
 window.addEventListener('scroll', onScroll, { passive: true });
 onScroll();
 
+// Подсвечиваем пункт меню того раздела, который сейчас посередине экрана.
+// Если там раздел, которого нет в меню (первый экран, заявка, подвал), — ничего не подсвечиваем
 const navLinks = nav.querySelectorAll('a[href^="#"]:not(.btn)');
 const sections = [...navLinks]
   .map((link) => document.querySelector(link.getAttribute('href')))
   .filter(Boolean);
 
-const sectionObserver = new IntersectionObserver(
-  (entries) => {
-    entries.forEach((entry) => {
-      if (!entry.isIntersecting) return;
-      navLinks.forEach((link) => {
-        const isCurrent = link.getAttribute('href') === `#${entry.target.id}`;
-        link.classList.toggle('is-active', isCurrent);
-        if (isCurrent) link.setAttribute('aria-current', 'true');
-        else link.removeAttribute('aria-current');
-      });
-    });
-  },
-  { rootMargin: '-45% 0px -50% 0px' }
-);
-sections.forEach((section) => sectionObserver.observe(section));
+function updateActiveLink() {
+  const middle = window.innerHeight / 2;
+  const current = sections.find((section) => {
+    const rect = section.getBoundingClientRect();
+    return rect.top <= middle && rect.bottom > middle;
+  });
+
+  navLinks.forEach((link) => {
+    const isCurrent = Boolean(current) && link.getAttribute('href') === `#${current.id}`;
+    link.classList.toggle('is-active', isCurrent);
+    if (isCurrent) link.setAttribute('aria-current', 'true');
+    else link.removeAttribute('aria-current');
+  });
+}
+
+window.addEventListener('scroll', updateActiveLink, { passive: true });
+window.addEventListener('resize', updateActiveLink);
+updateActiveLink();
 
 // ==========================================================
 // 3. ПОЯВЛЕНИЕ БЛОКОВ ПРИ ПРОКРУТКЕ
@@ -91,9 +96,10 @@ document.querySelectorAll('.reveal').forEach((el, i) => {
 //    Цены берутся из атрибутов data-* в index.html
 // ==========================================================
 const calcForm = document.getElementById('calc-form');
-const areaInput = calcForm.elements.area;
-const areaOut = document.getElementById('c-area-out');
+const areaInput = calcForm.elements.area;              // ползунок
+const areaNumber = document.getElementById('c-area-num'); // поле для ввода цифрами
 const totalOut = document.getElementById('c-total');
+const miniOut = document.getElementById('c-mini');     // мини-итог на телефоне
 const perM2Out = document.getElementById('c-per-m2');
 const weeksOut = document.getElementById('c-weeks');
 
@@ -137,11 +143,22 @@ function getEstimate() {
 let shownTotal = null;
 let frame = 0;
 
+// Ширина поля площади — ровно под количество цифр, чтобы пунктир был точно под числом
+function fitAreaNumber() {
+  const digits = Math.max(2, String(areaNumber.value).length);
+  areaNumber.style.width = `calc(${digits}ch + 6px)`;
+}
+
+function writeTotal(value) {
+  totalOut.textContent = rub(value);
+  miniOut.textContent = rub(value);
+}
+
 function showTotal(target) {
   cancelAnimationFrame(frame);
   if (shownTotal === null || reduceMotion) {
     shownTotal = target;
-    totalOut.textContent = rub(target);
+    writeTotal(target);
     return;
   }
 
@@ -153,7 +170,7 @@ function showTotal(target) {
     const t = Math.min((now - start) / duration, 1);
     const eased = 1 - Math.pow(1 - t, 3);
     shownTotal = Math.round(from + (target - from) * eased);
-    totalOut.textContent = rub(Math.round(shownTotal / 1000) * 1000);
+    writeTotal(Math.round(shownTotal / 1000) * 1000);
     if (t < 1) frame = requestAnimationFrame(tick);
   }
   frame = requestAnimationFrame(tick);
@@ -164,15 +181,42 @@ function updateCalc() {
   const min = Number(areaInput.min);
   const max = Number(areaInput.max);
 
-  areaOut.textContent = `${estimate.area} м²`;
+  // Пока человек печатает в поле, не перебиваем его ввод
+  if (document.activeElement !== areaNumber) areaNumber.value = estimate.area;
+  fitAreaNumber();
   areaInput.style.setProperty('--fill', `${((estimate.area - min) / (max - min)) * 100}%`);
   perM2Out.textContent = rub(estimate.perM2);
   weeksOut.textContent = `≈ ${estimate.weeks} ${plural(estimate.weeks, ['неделя', 'недели', 'недель'])}`;
   showTotal(estimate.total);
 }
 
+// Площадь ввели цифрами: если число в допустимых пределах — двигаем ползунок.
+// Этот обработчик срабатывает раньше общего (у формы), поэтому расчёт уже увидит новое значение
+areaNumber.addEventListener('input', () => {
+  fitAreaNumber();
+  const value = Number(areaNumber.value);
+  if (value >= Number(areaInput.min) && value <= Number(areaInput.max)) {
+    areaInput.value = value;
+  }
+});
+
+// Ушли из поля (или нажали Enter) — исправляем число, если оно вне пределов: 5 → 15, 900 → 200
+function fixAreaNumber() {
+  const min = Number(areaInput.min);
+  const max = Number(areaInput.max);
+  const value = Math.round(Number(areaNumber.value)) || Number(areaInput.value);
+  areaInput.value = Math.min(max, Math.max(min, value));
+  areaNumber.value = areaInput.value;
+  updateCalc();
+}
+areaNumber.addEventListener('change', fixAreaNumber);
+areaNumber.addEventListener('blur', fixAreaNumber);
+
 calcForm.addEventListener('input', updateCalc);
-calcForm.addEventListener('submit', (event) => event.preventDefault());
+calcForm.addEventListener('submit', (event) => {
+  event.preventDefault();
+  fixAreaNumber(); // Enter в поле площади не перезагружает страницу, а просто применяет число
+});
 updateCalc();
 
 // Кнопки «Рассчитать» в карточках услуг сразу выбирают нужный тип ремонта
@@ -194,7 +238,11 @@ const commentInput = form.elements.comment;
 
 // «Получить точную смету» переносит расчёт в комментарий заявки,
 // чтобы человеку не пришлось писать всё заново
-document.getElementById('c-submit').addEventListener('click', () => {
+document.getElementById('c-submit').addEventListener('click', (event) => {
+  // Сами прокручиваем к заявке: если оставить обычный переход по ссылке #request,
+  // браузер сбрасывает фокус и курсор не встаёт в поле «Имя»
+  event.preventDefault();
+
   const estimate = getEstimate();
   const parts = [
     `${labelOf(estimate.type).toLowerCase()} ремонт`,
@@ -203,6 +251,13 @@ document.getElementById('c-submit').addEventListener('click', () => {
     ...estimate.extras.map((input) => labelOf(input).toLowerCase()),
   ];
   commentInput.value = `Расчёт с сайта: ${parts.join(', ')}. Примерно ${rub(estimate.total)}.`;
+
+  // Коротко подсвечиваем комментарий, чтобы было видно: расчёт уже вписан
+  commentInput.classList.remove('is-filled');
+  void commentInput.offsetWidth; // перезапуск анимации, если кнопку нажали ещё раз
+  commentInput.classList.add('is-filled');
+
+  document.getElementById('request').scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth' });
   form.elements.name.focus({ preventScroll: true });
 });
 
